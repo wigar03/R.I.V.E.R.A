@@ -123,3 +123,39 @@ Separar los datos medidos del ambiente de la demanda estimada por maceta. El sen
 
 La demostración actual es guionada: todavía no implementa un modelo agronómico de evapotranspiración. Su parada actúa únicamente en la pantalla y no es un paro físico de emergencia.
 
+## Prioridad móvil y verificaciones
+
+Revisión en navegador con anchos simulados de **320, 360, 390, 430, 768 y 844 px**, incluida una vista horizontal del sitio público.
+
+- Sin desbordamiento horizontal del documento en el sitio y las tres secciones de la consola.
+- Texto ampliado, mejor contraste y controles táctiles de al menos 44 px en la experiencia móvil.
+- Cabecera y menú adaptables; tarjetas en una columna para pantallas pequeñas.
+- Campos numéricos de 16 px para evitar el zoom automático habitual de iOS.
+- Barra inferior de parada durante la simulación, con espacio para el área segura.
+- Probados menú, selección de planta, cebado, bloqueo de órdenes simultáneas, parada y validación de calibración.
+- Compilación de producción y comprobación de tipos verificadas.
+
+**Pendiente:** pruebas físicas en Safari/iPhone y Chrome/Android, apertura desde NFC/QR y lectura del PDF en el visor del teléfono. La revisión con tamaños simulados no equivale a una prueba en dispositivos reales.
+
+<details>
+<summary>Ver captura móvil</summary>
+
+![Vista móvil de R.I.V.E.R.A.](public/vista-movil.png)
+
+</details>
+
+## Publicar en Vercel
+
+1. Importar este repositorio en Vercel.
+2. Seleccionar **Next.js** y mantener la raíz del repositorio como directorio del proyecto.
+3. Instalar con `npm ci` y compilar con `npm run build`; conservar la salida automática del framework.
+4. Esta versión no requiere secretos ni variables de entorno.
+5. Tras obtener la URL pública estable, grabarla en el NFC y generar el QR de respaldo.
+
+No incluir claves ni credenciales en Git. En las siguientes fases, las claves de servicio permanecerán en el servidor y el robot tendrá una credencial individual restringida. Si se comparte esta versión preliminar, mantener las etiquetas de demostración.
+
+## Sobre esta entrega
+
+La versión actual se incorpora al repositorio en **25 commits con cambios reales**, organizados por configuración, modelo, diseño, adaptación móvil, interfaz, recursos y documentación. Es una importación estructurada de la versión preliminar existente, no una reconstrucción de fechas históricas de trabajo.
+
+Contenido técnico e ilustración basados en las láminas v3.2 suministradas por el equipo. No se declara una licencia de reutilización de terceros; corresponde al equipo decidir la licencia del proyecto.
