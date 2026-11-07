@@ -92,3 +92,34 @@ Dosis iniciales del documento: **40 ml de albahaca, 35 ml de hierbabuena y 25 ml
 
 Caudal de 10 ml/s y tiempo inicial de 2 s son valores de ejemplo, no mediciones reales. El volumen se estima por tiempo; no existe un caudalímetro en esta propuesta. La calibración de la consola vive solo en memoria y se pierde al recargar.
 
+## Hoja de ruta
+
+| Fase | Alcance | Criterio de cierre |
+| --- | --- | --- |
+| **1 · Explorar y demostrar** | Sitio público, muestras de sensores, simulación local y diseño móvil | Validar diseño y secuencias con el equipo |
+| **2 · Recibir sensores** | Supabase, API HTTPS y telemetría desde el MKR | Ver un cambio físico en la web y reconocer una desconexión |
+| **3 · Operar con acceso privado** | Usuarios, permisos, calibración persistente y cola de órdenes | Ejecutar una orden autorizada una vez y recibir su resultado real |
+| **4 · Preparar la exhibición** | Modelo ×10 en firmware, historial, límites de agua, Vercel, NFC y QR | Ensayar visita y reconexión sin repetir riegos |
+
+### Telemetría propuesta
+
+```text
+MKR → API HTTPS en Vercel → Supabase → observatorio público
+Administrador autenticado → API → cola de órdenes ← consultas del MKR
+```
+
+Comenzar probando envíos cada 5–10 s y consulta de órdenes cada 1–2 s; ajustar después al rendimiento y límites del servicio. Guardar por separado hora de medición y de recepción. Identificar unidad, origen y antigüedad de cada lectura.
+
+Separar los datos medidos del ambiente de la demanda estimada por maceta. El sensor capacitivo no mide las tres macetas. El drenaje se atribuye a la maceta del ciclo activo, porque el colector es compartido.
+
+### Órdenes reales: trabajo pendiente
+
+- Autenticar administradores y validar permisos en el servidor y en la base de datos.
+- Asignar a cada comando identificador único, emisor, caducidad y estados pendiente/aceptado/en ejecución/completado/fallido/cancelado.
+- Evitar que un reinicio o reconexión repita una dosis; distinguir aceptación de finalización.
+- Mantener las secuencias físicas en el firmware. La web envía órdenes de alto nivel; las funciones de Vercel no ejecutan un bucle de bombeo.
+- Limitar cebado, capacidad, volumen total y duración. Apagar la bomba antes de mover servos y definir el comportamiento ante pérdida de red.
+- Acelerar la acumulación de demanda del modelo ×10, conservando los tiempos calibrados de actuadores.
+
+La demostración actual es guionada: todavía no implementa un modelo agronómico de evapotranspiración. Su parada actúa únicamente en la pantalla y no es un paro físico de emergencia.
+
