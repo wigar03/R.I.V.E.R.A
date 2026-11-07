@@ -148,11 +148,15 @@ Revisión en navegador con anchos simulados de **320, 360, 390, 430, 768 y 844 p
 
 1. Importar este repositorio en Vercel.
 2. Seleccionar **Next.js** y mantener la raíz del repositorio como directorio del proyecto.
-3. Instalar con `npm ci` y compilar con `npm run build`; conservar la salida automática del framework.
+3. El archivo `vercel.json` define `npm ci` para instalar y `npm run build` para compilar; conservar la salida automática del framework. Si se escriben estos comandos en el panel, introducirlos sin comillas simples, comillas dobles ni acentos invertidos.
 4. Esta versión no requiere secretos ni variables de entorno.
 5. Tras obtener la URL pública estable, grabarla en el NFC y generar el QR de respaldo.
 
 No incluir claves ni credenciales en Git. En las siguientes fases, las claves de servicio permanecerán en el servidor y el robot tendrá una credencial individual restringida. Si se comparte esta versión preliminar, mantener las etiquetas de demostración.
+
+### Error de instalación: `npm ci: command not found`
+
+Si el registro indica `Running "install" command: 'npm ci'` y `Command "'npm ci'" exited with 127`, se ha configurado el comando con comillas que lo convierten en un único nombre de ejecutable. Usar `npm ci` sin comillas. `vercel.json` fija el comando correcto desde el repositorio y tiene prioridad sobre el ajuste del panel para el despliegue correspondiente. Desplegar el commit más reciente de `main`; reintentar un despliegue antiguo conserva su configuración anterior.
 
 ## Sobre esta entrega
 
