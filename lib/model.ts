@@ -22,3 +22,9 @@ export function irrigationSteps(dose: number, target: string, config: Calibratio
   steps.push({ name: 'Observando drenaje en el colector', duration: 3 });
   return steps;
 }
+export const phases = [
+  { n:'01', name:'Explorar y demostrar', state:'Versión de hoy', body:'Web pública, explicación del prototipo, sensores de ejemplo y consola de pruebas con cebado, riego y reloj ×10.', goal:'Aceptar el diseño y validar los recorridos en celular.', done:true },
+  { n:'02', name:'Conectar las lecturas', state:'Siguiente', body:'Supabase, API HTTPS y envío desde el MKR. Sensores reales, hora de última lectura y detección de desconexión.', goal:'Ver una lectura del prototipo en la web y reconocer cuándo deja de llegar.' },
+  { n:'03', name:'Operar con acceso privado', state:'Planificada', body:'Inicio de sesión, permisos de administrador, calibración persistente y órdenes con confirmación, caducidad e identificador.', goal:'Ejecutar una orden una sola vez y recibir su resultado desde el robot.' },
+  { n:'04', name:'Preparar la exhibición', state:'Planificada', body:'Demostración ×10 en firmware, límites de agua, historial, pruebas de reconexión y publicación en Vercel con enlace NFC + QR.', goal:'Ensayar la visita completa y una caída de internet sin repetir riegos.' },
+];
