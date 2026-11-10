@@ -14,7 +14,7 @@ Página del proyecto R.I.V.E.R.A. v3.2, Robot Creativo, MideaBot 2026, UNAN-Mana
 - Consola de prueba: riego manual, cebado hacia el retorno, calibración temporal y parada.
 - Recorrido guionado por las tres macetas con reloj virtual ×10; los tiempos simulados de bomba y servos conservan su duración.
 - División de dosis en varias cargas si exceden la capacidad configurada de la cubeta.
-- [Láminas completas del prototipo](public/rivera-v3.2.pdf).
+- [Láminas completas del prototipo](frontend/public/rivera-v3.2.pdf).
 
 ## Rutas
 
@@ -41,11 +41,12 @@ Supabase y la comunicación con el robot aún no están implementados. No se nec
 
 ## Desarrollo local
 
-Requisitos: Node.js **20.9 o superior**, compatible con Next.js 16, y npm. Usar una versión LTS vigente de Node.js.
+Requisitos: Node.js **22 o superior**, compatible con Next.js 16, y npm. Usar una versión LTS vigente de Node.js.
 
 ```bash
 git clone https://github.com/wigar03/R.I.V.E.R.A.git
 cd R.I.V.E.R.A
+git switch frontend
 npm ci
 npm run dev
 ```
@@ -61,20 +62,29 @@ npm start          # Servir una compilación de producción
 ## Estructura
 
 ```text
-app/
-  layout.tsx           Idioma, metadatos y estilos globales
-  page.tsx             Página pública
-  admin/page.tsx       Consola de demostración
-  globals.css          Diseño adaptable y controles móviles
-components/
-  Rivera.tsx           Interfaz y estado del simulador
-lib/
-  model.ts             Plantas, calibración, pasos y fases
-public/
-  prototipo.png        Ilustración extraída de las láminas
-  rivera-v3.2.pdf       Documento actualizado del equipo
-  vista-movil.png      Captura de la revisión móvil
+frontend/
+  app/                  Página pública, consola y estilos
+  components/Rivera.tsx Interfaz y estado del simulador
+  lib/model.ts          Modelo de demostración
+  public/               Ilustraciones, PDF y captura móvil
+  package.json          Dependencias y comandos de Next.js
+  vercel.json           Configuración de despliegue del frontend
+backend/
+  README.md             Alcance y guía para el colaborador de backend
+scripts/sync-push.mjs    Pull antes de cada push de una rama de trabajo
+docs/COLABORACION.md     Flujo de ramas y configuración de despliegue
+.github/workflows/      Validación de ramas, tipos y compilación
+package.json            Workspaces y comandos comunes
+package-lock.json       Dependencias bloqueadas del workspace
 ```
+
+## Colaboración
+
+Trabajamos en **frontend**; el otro colaborador trabaja en **backend**. Todo cambio
+pasa por **develop** antes de **main**. Sincronizar antes de cada push con
+`npm run sync:push` y abrir un pull request hacia develop. Consultar el
+[flujo completo](docs/COLABORACION.md), incluidas las protecciones de GitHub y la
+configuración de Vercel para el monorepo.
 
 ## Referencias del prototipo
 
@@ -140,15 +150,15 @@ Revisión en navegador con anchos simulados de **320, 360, 390, 430, 768 y 844 p
 <details>
 <summary>Ver captura móvil</summary>
 
-![Vista móvil de R.I.V.E.R.A.](public/vista-movil.png)
+![Vista móvil de R.I.V.E.R.A.](frontend/public/vista-movil.png)
 
 </details>
 
 ## Publicar en Vercel
 
 1. Importar este repositorio en Vercel.
-2. Seleccionar **Next.js** y mantener la raíz del repositorio como directorio del proyecto.
-3. El archivo `vercel.json` define `npm ci` para instalar y `npm run build` para compilar; conservar la salida automática del framework. Si se escriben estos comandos en el panel, introducirlos sin comillas simples, comillas dobles ni acentos invertidos.
+2. Seleccionar **Next.js**, usar **Root Directory = frontend** y permitir archivos fuera de ese directorio para instalar el workspace. Mantener **Production Branch = main**; las ramas de trabajo y develop se revisan en Preview.
+3. El archivo `frontend/vercel.json` define `cd .. && npm ci` para instalar desde el lockfile de la raíz y `npm run build` para compilar; conservar la salida automática del framework. Si se escriben estos comandos en el panel, introducirlos sin comillas simples, comillas dobles ni acentos invertidos.
 4. Esta versión no requiere secretos ni variables de entorno.
 5. Tras obtener la URL pública estable, grabarla en el NFC y generar el QR de respaldo.
 
@@ -156,7 +166,7 @@ No incluir claves ni credenciales en Git. En las siguientes fases, las claves de
 
 ### Error de instalación: `npm ci: command not found`
 
-Si el registro indica `Running "install" command: 'npm ci'` y `Command "'npm ci'" exited with 127`, se ha configurado el comando con comillas que lo convierten en un único nombre de ejecutable. Usar `npm ci` sin comillas. `vercel.json` fija el comando correcto desde el repositorio y tiene prioridad sobre el ajuste del panel para el despliegue correspondiente. Desplegar el commit más reciente de `main`; reintentar un despliegue antiguo conserva su configuración anterior.
+Si el registro indica `Running "install" command: 'npm ci'` y `Command "'npm ci'" exited with 127`, se ha configurado el comando con comillas que lo convierten en un único nombre de ejecutable. Usar `npm ci` sin comillas. `frontend/vercel.json` fija el comando correcto desde el repositorio y tiene prioridad sobre el ajuste del panel para el despliegue correspondiente. Reintentar un despliegue antiguo conserva su configuración anterior. Revisar primero develop en Preview y publicar en main solamente tras aprobar la versión.
 
 ## Sobre esta entrega
 

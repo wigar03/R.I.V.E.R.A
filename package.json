@@ -1,1 +1,16 @@
-{"name":"rivera-web","version":"0.1.0","private":true,"scripts":{"dev":"next dev --hostname 127.0.0.1","build":"next build","start":"next start --hostname 127.0.0.1","typecheck":"tsc --noEmit"},"dependencies":{"next":"16.4.5","react":"19.3.1","react-dom":"19.3.1","lucide-react":"latest"},"devDependencies":{"typescript":"^5","@types/node":"^22","@types/react":"^19","@types/react-dom":"^19"}}
+{
+  "name": "rivera",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": ["frontend"],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "npm run dev --workspace frontend",
+    "build": "npm run build --workspace frontend",
+    "start": "npm run start --workspace frontend",
+    "typecheck": "npm run typecheck --workspace frontend",
+    "sync:push": "node scripts/sync-push.mjs"
+  }
+}
