@@ -1,0 +1,52 @@
+name: Integración
+
+on:
+  push:
+    branches: [develop, frontend, backend]
+  pull_request:
+    branches: [develop, main]
+    types: [opened, synchronize, reopened, edited, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  branch-flow:
+    name: Flujo de ramas
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comprobar origen y destino del pull request
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+          HEAD_BRANCH: ${{ github.head_ref }}
+          HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+          REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          if [[ "$HEAD_REPOSITORY" != "$REPOSITORY" ]]; then
+            echo "Integrar los cambios en frontend o backend de este repositorio primero."
+            exit 1
+          fi
+          case "$BASE_BRANCH:$HEAD_BRANCH" in
+            develop:frontend|develop:backend|main:develop)
+              echo "Flujo permitido: $HEAD_BRANCH -> $BASE_BRANCH"
+              ;;
+            *)
+              echo "Flujo requerido: frontend/backend -> develop -> main."
+              exit 1
+              ;;
+          esac
+
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
